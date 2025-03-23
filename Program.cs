@@ -38,17 +38,17 @@ while (runing)
             break;
         case 3: //search
             {
-                //SearchContact(ids, names, lastnames, addresses, telephones, emails, ages, bestFriends);
+                SearchContact(ids, names, lastnames, addresses, telephones, emails, ages, bestFriends);
             }
             break;
         case 4: //modify
-            { 
-            
+            {
+
             }
             break;
         case 5: //delete
-            { 
-            
+            {
+
             }
             break;
         case 6:
@@ -59,9 +59,9 @@ while (runing)
             break;
     }
 }
-    
 
-    static void AddContact(List<int> ids, Dictionary<int, string> names, Dictionary<int, string> lastnames, Dictionary<int, string> addresses, Dictionary<int, string> telephones, Dictionary<int, string> emails, Dictionary<int, int> ages, Dictionary<int, bool> bestFriends)
+
+static void AddContact(List<int> ids, Dictionary<int, string> names, Dictionary<int, string> lastnames, Dictionary<int, string> addresses, Dictionary<int, string> telephones, Dictionary<int, string> emails, Dictionary<int, int> ages, Dictionary<int, bool> bestFriends)
 {
     Console.WriteLine("Digite el nombre de la persona");
     string name = Console.ReadLine();
@@ -94,7 +94,7 @@ while (runing)
 static void ShowContact(List<int> ids, Dictionary<int, string> names, Dictionary<int, string> lastnames, Dictionary<int, string> addresses, Dictionary<int, string> telephones, Dictionary<int, string> emails, Dictionary<int, int> ages, Dictionary<int, bool> bestFriends)
 {
     Console.WriteLine($"Nombre          Apellido            Dirección           Telefono            Email           Edad            Es Mejor Amigo?");
-    Console.WriteLine($"____________________________________________________________________________________________________________________________");
+    Console.WriteLine($"");
     foreach (var id in ids)
     {
         var isBestFriend = bestFriends[id];
@@ -106,12 +106,41 @@ static void ShowContact(List<int> ids, Dictionary<int, string> names, Dictionary
 }
 
 
-    static void SearchContact(List<int> ids, Dictionary<int, string> names, Dictionary<int, string> lastnames, Dictionary<int, string> addresses, Dictionary<int, string> telephones, Dictionary<int, string> emails, Dictionary<int, int> ages, Dictionary<int, bool> bestFriends)
+static void SearchContact(List<int> ids, Dictionary<int, string> names, Dictionary<int, string> lastnames, Dictionary<int, string> addresses, Dictionary<int, string> telephones, Dictionary<int, string> emails, Dictionary<int, int> ages, Dictionary<int, bool> bestFriends)
+{
+    Console.WriteLine("Digite el ID del contacto que desea buscar");
+
+    if (int.TryParse(Console.ReadLine(), out int idBuscado))
     {
-        Console.WriteLine("Digite el nombre del contacto que desea buscar");
-        String nombreContacto = Console.ReadLine();
+        bool encontrado = false;
 
-        
+        foreach (var id in ids)
+        {
+            if (id == idBuscado)
+            {
+                encontrado = true;
+                string isBestFriendStr = bestFriends[id] ? "Si" : "No";
 
+                Console.WriteLine("Contacto:\n");
+                Console.WriteLine($"Nombre: {names[id]}");
+                Console.WriteLine($"Apellido: {lastnames[id]}");
+                Console.WriteLine($"Dirección: {addresses[id]}");
+                Console.WriteLine($"Teléfono: {telephones[id]}");
+                Console.WriteLine($"Email: {emails[id]}");
+                Console.WriteLine($"Edad: {ages[id]}");
+                Console.WriteLine($"Es mejor amigo: {isBestFriendStr}");
+                Console.WriteLine("----------------------------------------------------\n");
+                break;
+            }
+        }
 
+        if (!encontrado)
+        {
+            Console.WriteLine("No se encontró ningún contacto con este ID.");
+        }
     }
+    else
+    {
+        Console.WriteLine("ID inválido.");
+    }
+}
