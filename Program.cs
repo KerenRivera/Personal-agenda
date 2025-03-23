@@ -56,13 +56,13 @@ while (runing)
             break;
         case 6:
             runing = false;
+            Console.WriteLine("Saliendo...");
             break;
         default:
             Console.WriteLine("¿Tú eres o te haces el idiota?");
             break;
     }
 }
-
 
 static void AddContact(List<int> ids, Dictionary<int, string> names, Dictionary<int, string> lastnames, Dictionary<int, string> addresses, Dictionary<int, string> telephones, Dictionary<int, string> emails, Dictionary<int, int> ages, Dictionary<int, bool> bestFriends)
 {
@@ -77,9 +77,13 @@ static void AddContact(List<int> ids, Dictionary<int, string> names, Dictionary<
     Console.WriteLine("Digite el email de la persona");
     string email = Console.ReadLine();
     Console.WriteLine("Digite la edad de la persona en números");
-    int age = Convert.ToInt32(Console.ReadLine());
-    Console.WriteLine("Especifique si es mejor amigo: 1. Sí, 2. No");
+    if (!int.TryParse(Console.ReadLine(), out int age))
+    {
+        Console.WriteLine("Edad inválida. Contacto no agregado.");
+        return;
+    }
 
+    Console.WriteLine("Especifique si es mejor amigo: 1. Sí, 2. No");
     bool isBestFriend = Convert.ToInt32(Console.ReadLine()) == 1;
 
     var id = ids.Count + 1;
@@ -91,6 +95,8 @@ static void AddContact(List<int> ids, Dictionary<int, string> names, Dictionary<
     emails.Add(id, email);
     ages.Add(id, age);
     bestFriends.Add(id, isBestFriend);
+
+    Console.WriteLine("Contacto agregado correctamente.");
 }
 
 
@@ -115,13 +121,13 @@ static void SearchContact(List<int> ids, Dictionary<int, string> names, Dictiona
 
     if (int.TryParse(Console.ReadLine(), out int idBuscado))
     {
-        bool encontrado = false;
+        bool finded = false;
 
         foreach (var id in ids)
         {
             if (id == idBuscado)
             {
-                encontrado = true;
+                finded = true;
                 string isBestFriendStr = bestFriends[id] ? "Si" : "No";
 
                 Console.WriteLine("Contacto:\n");
@@ -137,7 +143,7 @@ static void SearchContact(List<int> ids, Dictionary<int, string> names, Dictiona
             }
         }
 
-        if (!encontrado)
+        if (!finded)
         {
             Console.WriteLine("No se encontró ningún contacto con este ID.");
         }
@@ -154,13 +160,13 @@ static void ModifyContact(List<int> ids, Dictionary<int, string> names, Dictiona
 
     if (int.TryParse(Console.ReadLine(), out int idBuscado))
     {
-        bool encontrado = false;
+        bool finded = false;
 
         foreach (var id in ids)
         {
             if (id == idBuscado)
             {
-                encontrado = true;
+                finded = true;
                 //string isBestFriendStr = bestFriends[id] ? "Si" : "No";
 
                 //Console.WriteLine("Contacto:\n");
@@ -245,20 +251,20 @@ static void ModifyContact(List<int> ids, Dictionary<int, string> names, Dictiona
                             Console.WriteLine("Es mejor amigo? (Sí/No): ");
                             string answer = Console.ReadLine().ToLower();
 
-                            bestFriends[idBuscado] = (answer == "sí");
+                            bestFriends[idBuscado] = (answer == "si");
 
-                            if (answer == "sí" || answer == "no")
+                            if (answer == "si" || answer == "no")
                             {
                                 Console.WriteLine($"El contacto ahora {(bestFriends[idBuscado] ? "es" : "no es")} mejor amigo.");
-                            }         
+                            }
                             else
                             {
                                 Console.WriteLine("Respuesta inválida. Debe escribir 'Sí' o 'No'.");
-                            }                               
+                            }
                         }
                         break;
                     default:
-                        
+
                         Console.WriteLine("Por favor, digite una opción válida.");
                         break;
                 }
@@ -266,7 +272,7 @@ static void ModifyContact(List<int> ids, Dictionary<int, string> names, Dictiona
             }
         }
 
-        if (!encontrado)
+        if (!finded)
         {
             Console.WriteLine("No se encontró ningún contacto con este ID.");
         }
@@ -283,13 +289,13 @@ static void DeleteContact(List<int> ids, Dictionary<int, string> names, Dictiona
 
     if (int.TryParse(Console.ReadLine(), out int idBuscado))
     {
-        bool encontrado = false;
+        bool finded = false;
 
         foreach (var id in ids)
         {
             if (id == idBuscado)
             {
-                encontrado = true;
+                finded = true;
 
                 ids.Remove(idBuscado);
                 names.Remove(idBuscado);
@@ -302,9 +308,9 @@ static void DeleteContact(List<int> ids, Dictionary<int, string> names, Dictiona
 
                 Console.WriteLine("Contacto eliminado satisfactoriamente.");
             }
-            
+
         }
-        if (!encontrado)
+        if (!finded)
         {
             Console.WriteLine("No se encontró ningún contacto con este ID.");
         }
@@ -314,3 +320,4 @@ static void DeleteContact(List<int> ids, Dictionary<int, string> names, Dictiona
         Console.WriteLine("ID inválido.");
     }
 }
+
