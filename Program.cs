@@ -4,7 +4,6 @@ Console.WriteLine("Bienvenido a mi lista de Contactos");
 Console.WriteLine("---------------------------------------");
 
 
-//names, lastnames, addresses, telephones, emails, ages, bestfriend
 bool runing = true;
 List<int> ids = new List<int>();
 Dictionary<int, string> names = new Dictionary<int, string>();
@@ -27,29 +26,25 @@ while (runing)
     {
         case 1:
             {
-
                 AddContact(ids, names, lastnames, addresses, telephones, emails, ages, bestFriends);
-
             }
             break;
-        case 2: //extract this to a method
+        case 2: 
             {
-
                 ShowContact(ids, names, lastnames, addresses, telephones, emails, ages, bestFriends);
-
             }
             break;
-        case 3: //search
+        case 3:
             {
                 SearchContact(ids, names, lastnames, addresses, telephones, emails, ages, bestFriends);
             }
             break;
-        case 4: //modify
+        case 4: 
             {
                 ModifyContact(ids, names, lastnames, addresses, telephones, emails, ages, bestFriends);
             }
             break;
-        case 5: //delete
+        case 5: 
             {
                 DeleteContact(ids, names, lastnames, addresses, telephones, emails, ages, bestFriends);
             }
@@ -59,6 +54,7 @@ while (runing)
             Console.WriteLine("Saliendo...");
             break;
         default:
+
             Console.WriteLine("¿Tú eres o te haces el idiota?");
             break;
     }
@@ -167,18 +163,6 @@ static void ModifyContact(List<int> ids, Dictionary<int, string> names, Dictiona
             if (id == idBuscado)
             {
                 finded = true;
-                //string isBestFriendStr = bestFriends[id] ? "Si" : "No";
-
-                //Console.WriteLine("Contacto:\n");
-                //Console.WriteLine($"Nombre: {names[id]}");
-                //Console.WriteLine($"Apellido: {lastnames[id]}");
-                //Console.WriteLine($"Dirección: {addresses[id]}");
-                //Console.WriteLine($"Teléfono: {telephones[id]}");
-                //Console.WriteLine($"Email: {emails[id]}");
-                //Console.WriteLine($"Edad: {ages[id]}");
-                //Console.WriteLine($"Es mejor amigo: {isBestFriendStr}");
-                //Console.WriteLine("----------------------------------------------------\n");
-                //break;
 
                 Console.WriteLine("Elija la opcion que desea modificar: ");
                 Console.WriteLine($"1. Nombre         2. Apellido          3. Dirección          4. Telefono           5. Email         6. Edad          7. Es Mejor Amigo?\n");
