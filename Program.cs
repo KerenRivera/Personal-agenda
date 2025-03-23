@@ -1,4 +1,7 @@
-﻿Console.WriteLine("Bienvenido a mi lista de Contactos");
+﻿using System.Diagnostics;
+
+Console.WriteLine("Bienvenido a mi lista de Contactos");
+Console.WriteLine("---------------------------------------");
 
 
 //names, lastnames, addresses, telephones, emails, ages, bestfriend
@@ -16,7 +19,7 @@ Dictionary<int, bool> bestFriends = new Dictionary<int, bool>();
 while (runing)
 {
     Console.WriteLine(@"1. Agregar Contacto     2. Ver Contactos    3. Buscar Contactos     4. Modificar Contacto   5. Eliminar Contacto    6. Salir");
-    Console.WriteLine("Digite el número de la opción deseada");
+    Console.WriteLine("Digite el número de la opción deseada: ");
 
     int typeOption = Convert.ToInt32(Console.ReadLine());
 
@@ -43,19 +46,19 @@ while (runing)
             break;
         case 4: //modify
             {
-
+                ModifyContact(ids, names, lastnames, addresses, telephones, emails, ages, bestFriends);
             }
             break;
         case 5: //delete
             {
-
+                DeleteContact(ids, names, lastnames, addresses, telephones, emails, ages, bestFriends);
             }
             break;
         case 6:
             runing = false;
             break;
         default:
-            Console.WriteLine("Tu eres o te haces el idiota?");
+            Console.WriteLine("¿Tú eres o te haces el idiota?");
             break;
     }
 }
@@ -69,13 +72,13 @@ static void AddContact(List<int> ids, Dictionary<int, string> names, Dictionary<
     string lastname = Console.ReadLine();
     Console.WriteLine("Digite la dirección");
     string address = Console.ReadLine();
-    Console.WriteLine("Digite el telefono de la persona");
+    Console.WriteLine("Digite el teléfono de la persona");
     string phone = Console.ReadLine();
     Console.WriteLine("Digite el email de la persona");
     string email = Console.ReadLine();
     Console.WriteLine("Digite la edad de la persona en números");
     int age = Convert.ToInt32(Console.ReadLine());
-    Console.WriteLine("Especifique si es mejor amigo: 1. Si, 2. No");
+    Console.WriteLine("Especifique si es mejor amigo: 1. Sí, 2. No");
 
     bool isBestFriend = Convert.ToInt32(Console.ReadLine()) == 1;
 
@@ -134,6 +137,173 @@ static void SearchContact(List<int> ids, Dictionary<int, string> names, Dictiona
             }
         }
 
+        if (!encontrado)
+        {
+            Console.WriteLine("No se encontró ningún contacto con este ID.");
+        }
+    }
+    else
+    {
+        Console.WriteLine("ID inválido.");
+    }
+}
+
+static void ModifyContact(List<int> ids, Dictionary<int, string> names, Dictionary<int, string> lastnames, Dictionary<int, string> addresses, Dictionary<int, string> telephones, Dictionary<int, string> emails, Dictionary<int, int> ages, Dictionary<int, bool> bestFriends)
+{
+    Console.WriteLine("Escriba el ID del contacto que desea modificar: ");
+
+    if (int.TryParse(Console.ReadLine(), out int idBuscado))
+    {
+        bool encontrado = false;
+
+        foreach (var id in ids)
+        {
+            if (id == idBuscado)
+            {
+                encontrado = true;
+                //string isBestFriendStr = bestFriends[id] ? "Si" : "No";
+
+                //Console.WriteLine("Contacto:\n");
+                //Console.WriteLine($"Nombre: {names[id]}");
+                //Console.WriteLine($"Apellido: {lastnames[id]}");
+                //Console.WriteLine($"Dirección: {addresses[id]}");
+                //Console.WriteLine($"Teléfono: {telephones[id]}");
+                //Console.WriteLine($"Email: {emails[id]}");
+                //Console.WriteLine($"Edad: {ages[id]}");
+                //Console.WriteLine($"Es mejor amigo: {isBestFriendStr}");
+                //Console.WriteLine("----------------------------------------------------\n");
+                //break;
+
+                Console.WriteLine("Elija la opcion que desea modificar: ");
+                Console.WriteLine($"1. Nombre         2. Apellido          3. Dirección          4. Telefono           5. Email         6. Edad          7. Es Mejor Amigo?\n");
+                var option = int.Parse(Console.ReadLine());
+
+                switch (option)
+                {
+                    case 1:
+                        {
+                            Console.WriteLine("Escriba el nuevo nombre: ");
+                            string newName = Console.ReadLine();
+
+                            names[idBuscado] = newName;
+                            Console.WriteLine("Nombre actualizado correctamente.");
+
+                        }
+                        break;
+                    case 2:
+                        {
+                            Console.WriteLine("Escriba el nuevo apellido: ");
+                            string newLastName = Console.ReadLine();
+
+                            lastnames[idBuscado] = newLastName;
+                            Console.WriteLine("Apellido actualizado correctamente.");
+                        }
+                        break;
+                    case 3:
+                        {
+                            Console.WriteLine("Escriba la nueva dirección: ");
+                            string newAdress = Console.ReadLine();
+
+                            addresses[idBuscado] = newAdress;
+                            Console.WriteLine("Dirección actualizada correctamente.");
+                        }
+                        break;
+                    case 4:
+                        {
+                            Console.WriteLine("Escriba el nuevo teléfono: ");
+                            string newTelephone = Console.ReadLine();
+
+                            telephones[idBuscado] = newTelephone;
+                            Console.WriteLine("Teléfono actualizado correctamente.");
+                        }
+                        break;
+                    case 5:
+                        {
+                            Console.WriteLine("Escriba el nuevo email: ");
+                            string newEmail = Console.ReadLine();
+
+                            emails[idBuscado] = newEmail;
+                            Console.WriteLine("Email actualizado correctamente.");
+                        }
+                        break;
+                    case 6:
+                        {
+                            Console.WriteLine("Escriba la nueva edad: ");
+                            if (int.TryParse(Console.ReadLine(), out int newAge))
+                            {
+                                ages[idBuscado] = newAge;
+                                Console.WriteLine("Edad actualizada correctamente.");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Dato inválido. Por favor escriba un número entero.");
+                            }
+                        }
+                        break;
+                    case 7:
+                        {
+                            Console.WriteLine("Es mejor amigo? (Sí/No): ");
+                            string answer = Console.ReadLine().ToLower();
+
+                            bestFriends[idBuscado] = (answer == "sí");
+
+                            if (answer == "sí" || answer == "no")
+                            {
+                                Console.WriteLine($"El contacto ahora {(bestFriends[idBuscado] ? "es" : "no es")} mejor amigo.");
+                            }         
+                            else
+                            {
+                                Console.WriteLine("Respuesta inválida. Debe escribir 'Sí' o 'No'.");
+                            }                               
+                        }
+                        break;
+                    default:
+                        
+                        Console.WriteLine("Por favor, digite una opción válida.");
+                        break;
+                }
+                Console.ReadKey();
+            }
+        }
+
+        if (!encontrado)
+        {
+            Console.WriteLine("No se encontró ningún contacto con este ID.");
+        }
+    }
+    else
+    {
+        Console.WriteLine("ID inválido.");
+    }
+}
+
+static void DeleteContact(List<int> ids, Dictionary<int, string> names, Dictionary<int, string> lastnames, Dictionary<int, string> addresses, Dictionary<int, string> telephones, Dictionary<int, string> emails, Dictionary<int, int> ages, Dictionary<int, bool> bestFriends)
+{
+    Console.WriteLine("Escriba el ID del contacto que desea eliminar: ");
+
+    if (int.TryParse(Console.ReadLine(), out int idBuscado))
+    {
+        bool encontrado = false;
+
+        foreach (var id in ids)
+        {
+            if (id == idBuscado)
+            {
+                encontrado = true;
+
+                ids.Remove(idBuscado);
+                names.Remove(idBuscado);
+                lastnames.Remove(idBuscado);
+                addresses.Remove(idBuscado);
+                telephones.Remove(idBuscado);
+                emails.Remove(idBuscado);
+                ages.Remove(idBuscado);
+                bestFriends.Remove(idBuscado);
+
+                Console.WriteLine("Contacto eliminado satisfactoriamente.");
+            }
+            
+        }
         if (!encontrado)
         {
             Console.WriteLine("No se encontró ningún contacto con este ID.");
